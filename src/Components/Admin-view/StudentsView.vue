@@ -10,13 +10,20 @@
           <span class="profile-tag">{{ student.specialty }}</span>
           <span class="profile-tag-grade">{{ student.grade }}</span>
         </div>
-        <p class="email">mailto: {{ student.email }}</p>
+        <a :href="`mailto:${student.email}`" class="email"> {{ student.email }}</a>
       </div>
 
       <div class="profile-body">
         <h3>À propos</h3>
         <p>{{ student.bio }}</p>
       </div>
+
+      <Icon
+        :icon="isFavorite ? 'mdi:star' : 'mdi:star-outline'"
+        :style="{ color: isFavorite ? 'gold' : 'gray' }"
+        @click="isFavorite = !isFavorite"
+        width="32"
+      />
 
       <div class="profile-footer">
         <a :href="student.linkedin_url" target="_blank" class="btn-linkedin"> LinkedIn </a>
@@ -31,7 +38,8 @@
 <script setup>
 import { useStudentsStore } from '@/stores/StudentsStore'
 import { useRoute } from 'vue-router'
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, ref } from 'vue'
+import { Icon } from '@iconify/vue'
 const route = useRoute()
 //const router = useRouter()
 
@@ -45,6 +53,8 @@ onMounted(async () => {
     await store.getStudents()
   }
 })
+
+const isFavorite = ref(false)
 </script>
 
 <style scoped>
