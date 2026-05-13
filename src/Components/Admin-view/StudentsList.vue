@@ -38,6 +38,23 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <hr />
+
+    <h3>Vos Favoris</h3>
+
+    <div class="grid">
+      <div v-for="student in store.getAllStudentsByStars" :key="student.id" class="card">
+        <img :src="student.avatar_url" :alt="`Photo de profil de ${student.firstname}`" />
+        <h3>{{ student.firstname }} {{ student.lastname }}</h3>
+        <p>{{ student.bio.length > 10 ? student.bio.slice(0, 90) + '...' : student.bio }}</p>
+
+        <div class="actions">
+          <a :href="student.linkedin_url" target="_blank">Linkedin</a>
+          <button class="button" @click="viewStudents(student.id)">Voir plus</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

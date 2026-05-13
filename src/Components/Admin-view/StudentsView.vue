@@ -19,9 +19,9 @@
       </div>
 
       <Icon
-        :icon="isFavorite ? 'mdi:star' : 'mdi:star-outline'"
-        :style="{ color: isFavorite ? 'gold' : 'gray' }"
-        @click="isFavorite = !isFavorite"
+        :icon="store.favoriteIds.includes(student.id) ? 'mdi:star' : 'mdi:star-outline'"
+        :style="{ color: store.favoriteIds.includes(student.id) ? 'gold' : 'gray' }"
+        @click="store.toggFavorites(student.id)"
         width="32"
       />
 
@@ -53,8 +53,6 @@ onMounted(async () => {
     await store.getStudents()
   }
 })
-
-const isFavorite = ref(false)
 </script>
 
 <style scoped>

@@ -5,6 +5,7 @@ export const useStudentsStore = defineStore('students', {
   state: () => ({
     students: [],
     loading: false,
+    favoriteIds: [],
     error: null,
   }),
 
@@ -20,11 +21,27 @@ export const useStudentsStore = defineStore('students', {
       }
       this.loading = false
     },
+
+    toggFavorites(StudentId) {
+      const searchId = this.favoriteIds.indexOf(StudentId)
+
+      if (searchId > -1) {
+        this.favoriteIds.splice(searchId, 1)
+      } else {
+        this.favoriteIds.push(StudentId)
+      }
+    },
   },
 
   getters: {
     getStudentsById: (state) => {
       return (id) => state.students.find((s) => s.id === id)
+    },
+    isStudentFavorites: (state) => {
+      return (id) => state.favoriteIds.includes(id)
+    },
+    getAllStudentsByStars: (state) => {
+      return state.students.filter((s) => state.favoriteIds.includes(s.id))
     },
   },
 })
