@@ -27,6 +27,7 @@
 
       <div class="profile-footer">
         <a :href="student.linkedin_url" target="_blank" class="btn-linkedin"> LinkedIn </a>
+        <button @click="modifyStudents(student.id)" class="btn-modify">Modifier</button>
         <router-link to="/" class="btn-back">Retour à la liste</router-link>
       </div>
     </div>
@@ -37,16 +38,20 @@
 
 <script setup>
 import { useStudentsStore } from '@/stores/StudentsStore'
-import { useRoute } from 'vue-router'
-import { onMounted, computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { onMounted, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 const route = useRoute()
-//const router = useRouter()
+const router = useRouter()
 
 const store = useStudentsStore()
 
 // récupération de l'étudiant depuis le store en fonction de son ID
 const student = computed(() => store.getStudentsById(route.params.id))
+
+function modifyStudents(id) {
+  router.push(`/modifyStudents/${id}`)
+}
 
 onMounted(async () => {
   if (store.students.length === 0) {
@@ -140,6 +145,16 @@ onMounted(async () => {
   border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
+}
+
+.btn-modify {
+  background: red;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
 }
 
 .btn-back {
