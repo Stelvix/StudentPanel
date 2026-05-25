@@ -9,7 +9,7 @@
 
         <div class="nav-links">
           <router-link to="/" class="nav-link"> <i class="icon-home"></i> Accueil </router-link>
-          <router-link to="/" class="nav-link">
+          <router-link to="/newStudent" class="nav-link-new">
             <i class="icon-home"></i> Nouvel élève
           </router-link>
         </div>
@@ -75,6 +75,16 @@ body {
   border-radius: 8px;
   transition: all 0.3s ease;
 }
+.nav-link-new {
+  text-decoration: none;
+  color: #35495e;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgb(102, 102, 243);
+  color: white;
+}
 
 .nav-link:hover {
   background-color: rgba(66, 184, 131, 0.1);
@@ -84,6 +94,15 @@ body {
 .router-link-active {
   color: #42b883;
   background-color: rgba(66, 184, 131, 0.1);
+}
+.router-link > .nav-link-new {
+  text-decoration: none;
+  color: #35495e;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: blue;
 }
 
 .main-content {
