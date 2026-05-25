@@ -60,6 +60,18 @@ export const useStudentsStore = defineStore('students', {
       }
       this.loading = false
     },
+
+    async addStudents(student) {
+      const { data, error } = await supabase.from('students').insert(student).select()
+      if (!error && data && data.length > 0) {
+        const newStudent = data[0]
+        this.students.push(newStudent)
+        return newStudent
+      } else {
+        this.error = error ? error.message : 'Une erreur est survenue'
+        return null
+      }
+    },
   },
 
   getters: {
