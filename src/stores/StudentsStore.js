@@ -31,6 +31,21 @@ export const useStudentsStore = defineStore('students', {
         this.favoriteIds.push(StudentId)
       }
     },
+
+    async updateStudents(updateStudents) {
+      this.loading = true
+      const { data, error } = await supabase
+        .from('students')
+        .upsert(updateStudents)
+        .select()
+        .single()
+      if (!error) {
+        this.students = this.students.map((s) => (s.id === updateStudents.id ? data : s))
+      } else {
+        this.error = error.message
+      }
+      this.loading = false
+    },
   },
 
   getters: {

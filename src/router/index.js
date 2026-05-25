@@ -1,5 +1,6 @@
 import StudentsList from '@/Components/Admin-view/StudentsList.vue'
 import StudentsView from '@/Components/Admin-view/StudentsView.vue'
+import ModifyStudent from '@/Components/Admin-view/ModifyStudent.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/students/:id',
       name: 'studentView',
       component: StudentsView,
+    },
+    {
+      path: '/modifyStudents/:id',
+      name: 'modifyStudent',
+      component: ModifyStudent,
     },
   ],
 })
