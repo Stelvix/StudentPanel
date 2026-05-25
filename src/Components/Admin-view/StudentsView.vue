@@ -1,5 +1,10 @@
 <template>
   <div class="profile-container">
+    <Transition name="fade">
+      <div v-if="isVisible" :class="['notification-toast', type]">
+        {{ message }}
+      </div>
+    </Transition>
     <div v-if="store.loading" class="loader">Chargement...</div>
 
     <div v-else-if="student" class="profile-card">
@@ -45,12 +50,14 @@
 <script setup>
 import { useStudentsStore } from '@/stores/StudentsStore'
 import { useRoute, useRouter } from 'vue-router'
+import { useNotification } from '@/Composables/useNotifications'
 import { onMounted, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 
 const route = useRoute()
 const router = useRouter()
 const store = useStudentsStore()
+const { message, isVisible, type, showNotification } = useNotification()
 
 const student = computed(() => store.getStudentsById(route.params.id))
 
@@ -67,10 +74,10 @@ async function deleteStudents(id) {
     await store.deleteStudents(id)
 
     if (!store.error) {
-      router.push('/')
-      alert('Élève supprimé avec succès !')
-    } else {
-      alert(`Erreur lors de la suppression : ${store.error}`)
+      showNotification('Elève supprimé avec succès!', 'success')
+      setTimeout(() => {
+        router.push('/')
+      }, 1500)
     }
   }
 }
@@ -258,5 +265,27 @@ onMounted(async () => {
   font-style: italic;
   text-align: center;
   padding: 40px;
+}
+
+.notification-toast {
+  position: fixed;
+  bottom: 25px;
+  right: 20px;
+  padding: 15px 25px;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
+.success {
+  background-color: #42b883d7;
+}
+.error {
+  background-color: #db0707;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
