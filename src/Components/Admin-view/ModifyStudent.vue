@@ -88,7 +88,7 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" @click="$emit('cancel')" class="btn-cancel">Annuler</button>
+        <button type="button" @click="gotoHome()" class="btn-cancel">Annuler</button>
         <button type="submit" class="btn-submit">Enregistrer les modifications</button>
       </div>
     </form>
@@ -103,6 +103,10 @@ import { useStudentsStore } from '@/stores/StudentsStore'
 const studentStore = useStudentsStore()
 const router = useRouter()
 const route = useRoute()
+
+function gotoHome() {
+  router.push('/')
+}
 
 // création du tableau pour le form (payload)
 const form = ref({
