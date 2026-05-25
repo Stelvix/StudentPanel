@@ -9,6 +9,9 @@
 
         <div class="nav-links">
           <router-link to="/" class="nav-link"> <i class="icon-home"></i> Accueil </router-link>
+          <router-link to="/" class="nav-link">
+            <i class="icon-home"></i> Nouvel élève
+          </router-link>
         </div>
       </div>
     </nav>

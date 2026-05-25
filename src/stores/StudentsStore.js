@@ -46,6 +46,20 @@ export const useStudentsStore = defineStore('students', {
       }
       this.loading = false
     },
+
+    async deleteStudents(idStudent) {
+      this.loading = true
+      // on recherche d'abord le student
+      const { error } = await supabase.from('students').delete().eq('id', idStudent)
+      if (!error) {
+        this.students = this.students.filter((s) => s.id !== idStudent)
+        this.favoriteIds = this.favoriteIds.filter((s) => s.id !== idStudent)
+      } else {
+        this.error = error.message
+        console.error('Impossible de supprimer cet élève :', error.message)
+      }
+      this.loading = false
+    },
   },
 
   getters: {

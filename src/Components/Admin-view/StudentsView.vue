@@ -28,11 +28,11 @@
       <div class="profile-footer">
         <a :href="student.linkedin_url" target="_blank" class="btn-linkedin"> LinkedIn </a>
         <button @click="modifyStudents(student.id)" class="btn-modify">Modifier</button>
+        <button @click="deleteStudents(student.id)" class="btn-delete">Supprimer</button>
         <router-link to="/" class="btn-back">Retour à la liste</router-link>
       </div>
     </div>
-
-    <div v-else class="error-msg">Oups ! Cet étudiant n'existe pas.</div>
+    <div v-else class="">Oups ! Cet étudiant n'existe pas.</div>
   </div>
 </template>
 
@@ -51,6 +51,20 @@ const student = computed(() => store.getStudentsById(route.params.id))
 
 function modifyStudents(id) {
   router.push(`/modifyStudents/${id}`)
+}
+
+async function deleteStudents(id) {
+  const confirmation = confirm(
+    'Etes vous sur de supprimer cet élève? Une fois supprimer il sera impossible de revenir en arrière!',
+  )
+  if (confirmation) {
+    await store.deleteStudents(id)
+
+    if (!store.error) {
+      router.push('/')
+      alert('Elève supprimer avec succès')
+    }
+  }
 }
 
 onMounted(async () => {
@@ -148,7 +162,16 @@ onMounted(async () => {
 }
 
 .btn-modify {
-  background: red;
+  background: rgb(0, 238, 255);
+  color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+}
+.btn-delete {
+  background: rgb(219, 7, 7);
   color: white;
   padding: 10px 20px;
   border-radius: 10px;
