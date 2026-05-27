@@ -3,6 +3,9 @@ import { onMounted } from 'vue'
 import { useStudentsStore } from '@/stores/StudentsStore'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
+import { useAuthStore } from '@/stores/AuthStore'
+
+const authStore = useAuthStore()
 
 const router = useRouter()
 const store = useStudentsStore()
@@ -20,6 +23,9 @@ onMounted(() => {
 
 <template>
   <div class="cards-students">
+    <div class="welcom">
+      <p v-if="authStore.user">Bienvenue {{ authStore.nomAdmin }}</p>
+    </div>
     <h2>Annuaire des étudiants</h2>
 
     <p v-if="store.loading" class="loading-msg">Chargement des profils...</p>
@@ -107,6 +113,28 @@ onMounted(() => {
   margin: 0 auto;
   padding: 20px;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.welcom {
+  color: #2c3e50;
+  font-size: 20px;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 2px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.welcom::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 4px;
+  background-color: #42b883;
+  border-radius: 2px;
 }
 
 h2 {
