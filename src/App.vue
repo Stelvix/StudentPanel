@@ -12,6 +12,9 @@
           <router-link to="/newStudent" class="nav-link-new">
             <i class="icon-home"></i> Nouvel élève
           </router-link>
+          <div v-if="isConnected" class="out">
+            <button @click="handleLogout" class="nav-link-out">Déconnexion</button>
+          </div>
         </div>
       </div>
     </nav>
@@ -21,6 +24,24 @@
     </main>
   </div>
 </template>
+
+<script setup>
+import { useAuthStore } from './stores/AuthStore'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+
+const authStore = useAuthStore()
+const router = useRouter()
+const isConnectedd = ref(false)
+
+async function handleLogout() {
+  await authStore.logout()
+  if (!authStore.nomAdmin) {
+    isConnectedd.value = false
+  }
+  router.push('/login')
+}
+</script>
 
 <style>
 body {
@@ -84,6 +105,19 @@ body {
   transition: all 0.3s ease;
   background: rgb(102, 102, 243);
   color: white;
+}
+.nav-link-out {
+  text-decoration: none;
+  color: #35495e;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgb(243, 102, 102);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .nav-link:hover {
