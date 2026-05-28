@@ -7,12 +7,13 @@
           <span class="logo-text">Annuaire<span>Étudiants</span></span>
         </div>
 
-        <div class="nav-links">
+        <div v-if="authStore.user" class="nav-links">
           <router-link to="/" class="nav-link"> <i class="icon-home"></i> Accueil </router-link>
           <router-link to="/newStudent" class="nav-link-new">
             <i class="icon-home"></i> Nouvel élève
           </router-link>
-          <div v-if="isConnected" class="out">
+
+          <div class="out">
             <button @click="handleLogout" class="nav-link-out">Déconnexion</button>
           </div>
         </div>
@@ -28,17 +29,12 @@
 <script setup>
 import { useAuthStore } from './stores/AuthStore'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
-const isConnectedd = ref(false)
 
 async function handleLogout() {
   await authStore.logout()
-  if (!authStore.nomAdmin) {
-    isConnectedd.value = false
-  }
   router.push('/login')
 }
 </script>

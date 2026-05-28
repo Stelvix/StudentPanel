@@ -12,6 +12,7 @@ export const useStudentsStore = defineStore('students', {
   actions: {
     async getStudents() {
       this.loading = true
+      this.error = null
       const { data, error } = await supabase.from('students').select('*')
 
       if (error) {
@@ -53,7 +54,7 @@ export const useStudentsStore = defineStore('students', {
       const { error } = await supabase.from('students').delete().eq('id', idStudent)
       if (!error) {
         this.students = this.students.filter((s) => s.id !== idStudent)
-        this.favoriteIds = this.favoriteIds.filter((s) => s.id !== idStudent)
+        this.favoriteIds = this.favoriteIds.filter((id) => id !== idStudent)
       } else {
         this.error = error.message
         console.error('Impossible de supprimer cet élève :', error.message)
@@ -84,5 +85,9 @@ export const useStudentsStore = defineStore('students', {
     getAllStudentsByStars: (state) => {
       return state.students.filter((s) => state.favoriteIds.includes(s.id))
     },
+  },
+
+  persist: {
+    paths: ['favoriteIds'],
   },
 })

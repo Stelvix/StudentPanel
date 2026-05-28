@@ -15,9 +15,7 @@ function viewStudents(id) {
 }
 
 onMounted(() => {
-  if (store.students.length === 0) {
-    store.getStudents()
-  }
+  store.getStudents()
 })
 </script>
 
