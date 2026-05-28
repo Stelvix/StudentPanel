@@ -41,14 +41,14 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   const authStore = useAuthStore()
+
   if (to.meta.requiresAdmin) {
     if (!authStore.user) {
-      return next('/login')
+      return '/login'
     }
   }
-  next()
 })
 
 export default router
